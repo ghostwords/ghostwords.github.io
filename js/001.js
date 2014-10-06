@@ -1,4 +1,4 @@
-/*global Mousetrap, _ */
+/*global Mousetrap, _, Stats */
 
 var x = 10,
 	y = 10,
@@ -21,7 +21,9 @@ var x = 10,
 	requestAnimationFrame = window.requestAnimationFrame ||
 		window.mozRequestAnimationFrame ||
 		window.webkitRequestAnimationFrame ||
-		window.msRequestAnimationFrame;
+		window.msRequestAnimationFrame,
+
+	stats = new Stats();
 
 function accelerate() {
 	if (accel < MAX_ACCEL) {
@@ -40,6 +42,12 @@ function deccelerate() {
 function clearDisplay() {
 	ctx.clearRect(0, 0, width, height);
 }
+
+// setup
+stats.domElement.style.position = 'absolute';
+stats.domElement.style.right = '0px';
+stats.domElement.style.top = '0px';
+document.body.appendChild(stats.domElement);
 
 // keys
 _.each(_.keys(keys), function (key) {
@@ -60,7 +68,10 @@ Mousetrap.bind('space', function () {
 
 // gameloop
 function draw() {
+	stats.begin();
+
 	if (pause) {
+		stats.end();
 		return;
 	}
 
@@ -92,5 +103,6 @@ function draw() {
 	ctx.fillRect(30, 30, 50, 50);
 
 	requestAnimationFrame(draw);
+	stats.end();
 }
 requestAnimationFrame(draw);
