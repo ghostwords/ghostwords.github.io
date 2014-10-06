@@ -10,6 +10,7 @@ var x = 10,
 	y2 = 0,
 
 	accel = 1,
+	sine_period = 2,
 	MAX_ACCEL = 20,
 	pause = false,
 	speed = 1,
@@ -18,7 +19,9 @@ var x = 10,
 		'up': false,
 		'down': false,
 		'left': false,
-		'right': false
+		'right': false,
+		'w': false,
+		's': false
 	},
 
 	width = canvas.width,
@@ -93,17 +96,27 @@ function draw() {
 
 	// movement
 	_.each(keys, function (active, key) {
-		if (active) {
-			accelerate();
+		if (!active) {
+			return;
+		}
 
-			if (key == 'up') {
-				y -= speed * accel;
-			} else if (key == 'down') {
-				y += speed * accel;
-			} else if (key == 'left') {
-				x -= speed * accel;
-			} else if (key == 'right') {
-				x += speed * accel;
+		if (['up', 'down', 'left', 'right'].indexOf(key) != -1) {
+			accelerate();
+		}
+
+		if (key == 'up') {
+			y -= speed * accel;
+		} else if (key == 'down') {
+			y += speed * accel;
+		} else if (key == 'left') {
+			x -= speed * accel;
+		} else if (key == 'right') {
+			x += speed * accel;
+		} else if (key == 'w') {
+			sine_period++;
+		} else if (key == 's') {
+			if (sine_period > 2) {
+				sine_period--;
 			}
 		}
 	});
@@ -122,7 +135,7 @@ function draw() {
 		spacing = 10;
 
 	for (i = 0; i < (width / (size + spacing)); i++) {
-		sin = Math.sin(y2 / 10 + (i / 2));
+		sin = Math.sin(y2 / 10 + (i / sine_period));
 
 		ctx.fillStyle = "rgba(" + scale_int(sin, -1, 1, 255, 0) + ", 0, 0, 0.5)";
 
