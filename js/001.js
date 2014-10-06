@@ -106,17 +106,17 @@ function draw() {
 	ctx.fillRect(x, y, 50, 50);
 
 	var i,
-		offset = 10,
 		sin,
-		size = 25;
+		size = 25,
+		spacing = 10;
 
-	for (i = 0; i < (width / (size + offset)); i++) {
+	for (i = 0; i < (width / (size + spacing)); i++) {
 		sin = Math.sin(y2 / 10 + (i / 2));
 
 		ctx.fillStyle = "rgba(" + scale_int(sin, -1, 1, 255, 0) + ", 0, 0, 0.5)";
 
 		ctx.fillRect(
-			offset + i * (size + offset), // x
+			spacing + i * (size + spacing), // x
 			scale_int(sin, -1, 1, 100, height - size - 100), // y
 			size, size // width, height
 		);
@@ -125,9 +125,9 @@ function draw() {
 	size = 5;
 	ctx.fillStyle = "rgba(0, 0, 200, 0.5)";
 
-	for (i = 0; i < (width / (size + offset)); i++) {
+	for (i = 0; i < (width / (size + spacing)); i++) {
 		ctx.fillRect(
-			offset + i * (size + offset), // x
+			spacing + i * (size + spacing), // x
 			scale_int(Math.cos(y2 / 50), -1, 1, 0, height - size), // y
 			size, size // width, height
 		);
