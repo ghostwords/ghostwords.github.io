@@ -1,10 +1,5 @@
 /*global Mousetrap, _, Stats */
 
-var canvas = $('#canvas')[0];
-
-resize_canvas();
-$(window).resize(resize_canvas);
-
 var x = 10,
 	y = 10,
 	y2 = 0,
@@ -23,9 +18,11 @@ var x = 10,
 		'w': false,
 		's': false
 	},
+	movement_keys = ['up', 'down', 'left', 'right'],
 
-	width = canvas.width,
-	height = canvas.height,
+	canvas = $('#canvas')[0],
+	canvas_width,
+	canvas_height,
 	ctx = canvas.getContext('2d'),
 
 	requestAnimationFrame = window.requestAnimationFrame ||
@@ -36,8 +33,8 @@ var x = 10,
 	stats = new Stats();
 
 function resize_canvas() {
-	width = canvas.width = $(window).width();
-	height = canvas.height = $(window).height();
+	canvas_width = canvas.width = $(window).width();
+	canvas_height = canvas.height = $(window).height();
 }
 
 function scale_int(num, old_min, old_max, new_min, new_max) {
@@ -59,10 +56,16 @@ function deccelerate() {
 }
 
 function clearDisplay() {
-	ctx.clearRect(0, 0, width, height);
+	ctx.clearRect(0, 0, canvas_width, canvas_height);
 }
 
 // setup
+resize_canvas();
+$(window).resize(function () {
+	resize_canvas();
+	draw();
+});
+
 stats.domElement.style.position = 'absolute';
 stats.domElement.style.right = '0px';
 stats.domElement.style.top = '0px';
@@ -81,26 +84,58 @@ Mousetrap.bind('r', clearDisplay);
 Mousetrap.bind('space', function () {
 	pause = !pause;
 	if (!pause) {
-		requestAnimationFrame(draw);
+		requestAnimationFrame(gameloop);
 	}
 });
 
-// gameloop
 function draw() {
-	stats.begin();
+	clearDisplay();
 
+	ctx.fillStyle = "rgb(" + Math.floor(200 / MAX_ACCEL * accel) + ", 0, 0)";
+	ctx.fillRect(x, y, 50, 50);
+
+	var i,
+		sin,
+		size = 25,
+		spacing = 10;
+
+	for (i = 0; i < (canvas_width / (size + spacing)); i++) {
+		sin = Math.sin(y2 / 10 + (i / sine_period));
+
+		ctx.fillStyle = "rgba(" + scale_int(sin, -1, 1, 255, 0) + ", 0, 0, 0.5)";
+
+		ctx.fillRect(
+			spacing + i * (size + spacing), // x
+			scale_int(sin, -1, 1, 100, canvas_height - size - 100), // y
+			size, size // width, height
+		);
+	}
+
+	size = 5;
+	ctx.fillStyle = "rgba(0, 0, 200, 0.5)";
+
+	for (i = 0; i < (canvas_width / (size + spacing)); i++) {
+		ctx.fillRect(
+			spacing + i * (size + spacing), // x
+			scale_int(Math.cos(y2 / 50), -1, 1, 0, canvas_height - size), // y
+			size, size // width, height
+		);
+	}
+}
+
+function gameloop() {
 	if (pause) {
-		stats.end();
 		return;
 	}
 
-	// movement
+	stats.begin();
+
 	_.each(keys, function (active, key) {
 		if (!active) {
 			return;
 		}
 
-		if (['up', 'down', 'left', 'right'].indexOf(key) != -1) {
+		if (movement_keys.indexOf(key) != -1) {
 			accelerate();
 		}
 
@@ -120,47 +155,19 @@ function draw() {
 			}
 		}
 	});
-	if (!_.any(keys, function (val) { return !!val; })) {
+
+	if (!_.any(movement_keys, function (key) {
+		return keys[key];
+	})) {
 		deccelerate();
 	}
 
-	// drawing
-	clearDisplay();
-	ctx.fillStyle = "rgb(" + Math.floor(200 / MAX_ACCEL * accel) + ", 0, 0)";
-	ctx.fillRect(x, y, 50, 50);
-
-	var i,
-		sin,
-		size = 25,
-		spacing = 10;
-
-	for (i = 0; i < (width / (size + spacing)); i++) {
-		sin = Math.sin(y2 / 10 + (i / sine_period));
-
-		ctx.fillStyle = "rgba(" + scale_int(sin, -1, 1, 255, 0) + ", 0, 0, 0.5)";
-
-		ctx.fillRect(
-			spacing + i * (size + spacing), // x
-			scale_int(sin, -1, 1, 100, height - size - 100), // y
-			size, size // width, height
-		);
-	}
-
-	size = 5;
-	ctx.fillStyle = "rgba(0, 0, 200, 0.5)";
-
-	for (i = 0; i < (width / (size + spacing)); i++) {
-		ctx.fillRect(
-			spacing + i * (size + spacing), // x
-			scale_int(Math.cos(y2 / 50), -1, 1, 0, height - size), // y
-			size, size // width, height
-		);
-	}
+	draw();
 
 	// bookkeeping
 	y2++;
 
-	requestAnimationFrame(draw);
+	requestAnimationFrame(gameloop);
 	stats.end();
 }
-requestAnimationFrame(draw);
+requestAnimationFrame(gameloop);
