@@ -1,14 +1,24 @@
-/*global Mousetrap, _, Stats */
+/*global Hammer, Mousetrap, Stats, _ */
 
-var x = 10,
-	y = 10,
-	y2 = 0,
+var box = {
+		accel: 1,
+		speed: 1,
 
-	accel = 1,
-	sine_period = 2,
+		grabbed: false,
+		grab_offset_x: 0,
+		grab_offset_y: 0,
+
+		width: 50,
+		height: 50,
+
+		x: 10,
+		y: 10
+	},
+
 	MAX_ACCEL = 20,
 	pause = false,
-	speed = 1,
+	sine_period = 2,
+	tick = 0,
 
 	keys = {
 		'up': false,
@@ -30,6 +40,11 @@ var x = 10,
 		window.webkitRequestAnimationFrame ||
 		window.msRequestAnimationFrame,
 
+	mc = new Hammer(canvas, {
+		recognizers: [[Hammer.Pan, { direction: Hammer.DIRECTION_ALL }]],
+		threshold: 0
+	}),
+
 	stats = new Stats();
 
 function resize_canvas() {
@@ -42,16 +57,16 @@ function scale_int(num, old_min, old_max, new_min, new_max) {
 }
 
 function accelerate() {
-	if (accel < MAX_ACCEL) {
-		accel += accel * 0.04;
+	if (box.accel < MAX_ACCEL) {
+		box.accel += box.accel * 0.04;
 	}
 }
 
 function deccelerate() {
-	if (accel > 1) {
-		accel -= accel * 0.04;
+	if (box.accel > 1) {
+		box.accel -= box.accel * 0.04;
 	} else {
-		accel = 1;
+		box.accel = 1;
 	}
 }
 
@@ -59,11 +74,58 @@ function clearDisplay() {
 	ctx.clearRect(0, 0, canvas_width, canvas_height);
 }
 
+function intersects(o1, o2) {
+	var o1_x1 = o1.x,
+		o1_x2 = o1.x + (o1.width || 1),
+		o1_y1 = o1.y,
+		o1_y2 = o1.y + (o1.height || 1),
+		o2_x1 = o2.x,
+		o2_x2 = o2.x + (o2.width || 1),
+		o2_y1 = o2.y,
+		o2_y2 = o2.y + (o2.height || 1);
+
+	return o1_x1 < o2_x2 && o1_x2 > o2_x1 &&
+		o1_y1 < o2_y2 && o1_y2 > o2_y1;
+}
+
 // setup
 resize_canvas();
 $(window).resize(function () {
 	resize_canvas();
 	draw();
+});
+
+$(canvas).mousemove(function (e) {
+	if (intersects({
+		x: e.clientX,
+		y: e.clientY
+	}, box)) {
+		$(canvas).css('cursor', 'pointer');
+	} else {
+		$(canvas).css('cursor', '');
+	}
+});
+
+mc.on('panstart', function (e) {
+	if (intersects({
+		x: e.center.x,
+		y: e.center.y
+	}, box)) {
+		box.accel = MAX_ACCEL;
+		box.grabbed = true;
+		box.grab_offset_x = box.x - e.center.x;
+		box.grab_offset_y = box.y - e.center.y;
+	}
+});
+mc.on('panmove', function (e) {
+	if (box.grabbed) {
+		box.accel = MAX_ACCEL;
+		box.x = e.center.x + box.grab_offset_x;
+		box.y = e.center.y + box.grab_offset_y;
+	}
+});
+mc.on('panend', function () {
+	box.grabbed = false;
 });
 
 stats.domElement.style.position = 'absolute';
@@ -91,8 +153,8 @@ Mousetrap.bind('space', function () {
 function draw() {
 	clearDisplay();
 
-	ctx.fillStyle = "rgb(" + Math.floor(200 / MAX_ACCEL * accel) + ", 0, 0)";
-	ctx.fillRect(x, y, 50, 50);
+	ctx.fillStyle = "rgb(" + Math.floor(200 / MAX_ACCEL * box.accel) + ", 0, 0)";
+	ctx.fillRect(box.x, box.y, box.width, box.height);
 
 	var i,
 		sin,
@@ -100,7 +162,7 @@ function draw() {
 		spacing = 10;
 
 	for (i = 0; i < (canvas_width / (size + spacing)); i++) {
-		sin = Math.sin(y2 / 10 + (i / sine_period));
+		sin = Math.sin(tick / 10 + (i / sine_period));
 
 		ctx.fillStyle = "rgba(" + scale_int(sin, -1, 1, 255, 0) + ", 0, 0, 0.5)";
 
@@ -117,7 +179,7 @@ function draw() {
 	for (i = 0; i < (canvas_width / (size + spacing)); i++) {
 		ctx.fillRect(
 			spacing + i * (size + spacing), // x
-			scale_int(Math.cos(y2 / 50), -1, 1, 0, canvas_height - size), // y
+			scale_int(Math.cos(tick / 50), -1, 1, 0, canvas_height - size), // y
 			size, size // width, height
 		);
 	}
@@ -140,13 +202,13 @@ function gameloop() {
 		}
 
 		if (key == 'up') {
-			y -= speed * accel;
+			box.y -= box.speed * box.accel;
 		} else if (key == 'down') {
-			y += speed * accel;
+			box.y += box.speed * box.accel;
 		} else if (key == 'left') {
-			x -= speed * accel;
+			box.x -= box.speed * box.accel;
 		} else if (key == 'right') {
-			x += speed * accel;
+			box.x += box.speed * box.accel;
 		} else if (key == 'w') {
 			sine_period++;
 		} else if (key == 's') {
@@ -165,7 +227,7 @@ function gameloop() {
 	draw();
 
 	// bookkeeping
-	y2++;
+	tick++;
 
 	requestAnimationFrame(gameloop);
 	stats.end();
