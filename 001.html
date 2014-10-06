@@ -11,7 +11,6 @@
 				display: table;
 			}
 			body {
-				background-color: black;
 				display: table-cell;
 				vertical-align: middle;
 			}
@@ -21,14 +20,16 @@
 			}
 			#canvas {
 				background-color: white;
-				border: 8px solid purple;
-				margin: 10px 0 50px 0;
+				display: block;
+				position: absolute;
+				top: 0;
+				left: 0;
 			}
 		</style>
 	</head>
 	<body>
 		<div id="body">
-			<canvas id="canvas" width="640" height="480"></canvas>
+			<canvas id="canvas"></canvas>
 		</div>
 		<script type="text/javascript" src="js/mousetrap.js"></script>
 		<script type="text/javascript" src="js/jquery.js"></script>

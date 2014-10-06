@@ -1,12 +1,19 @@
 /*global Mousetrap, _, Stats */
 
+var canvas = $('#canvas')[0];
+
+resize_canvas();
+$(window).resize(resize_canvas);
+
 var x = 10,
 	y = 10,
 	y2 = 0,
-	pause = false,
-	speed = 1,
+
 	accel = 1,
 	MAX_ACCEL = 20,
+	pause = false,
+	speed = 1,
+
 	keys = {
 		'up': false,
 		'down': false,
@@ -14,7 +21,6 @@ var x = 10,
 		'right': false
 	},
 
-	canvas = $('#canvas')[0],
 	width = canvas.width,
 	height = canvas.height,
 	ctx = canvas.getContext('2d'),
@@ -25,6 +31,11 @@ var x = 10,
 		window.msRequestAnimationFrame,
 
 	stats = new Stats();
+
+function resize_canvas() {
+	width = canvas.width = $(window).width();
+	height = canvas.height = $(window).height();
+}
 
 function scale_int(num, old_min, old_max, new_min, new_max) {
 	return Math.round((num - old_min) * (new_max - new_min) / (old_max - old_min) + new_min);
