@@ -2,6 +2,7 @@
 
 var x = 10,
 	y = 10,
+	y2 = 0,
 	pause = false,
 	speed = 1,
 	accel = 1,
@@ -24,6 +25,10 @@ var x = 10,
 		window.msRequestAnimationFrame,
 
 	stats = new Stats();
+
+function scale_int(num, old_min, old_max, new_min, new_max) {
+	return Math.round((num - old_min) * (new_max - new_min) / (old_max - old_min) + new_min);
+}
 
 function accelerate() {
 	if (accel < MAX_ACCEL) {
@@ -75,6 +80,7 @@ function draw() {
 		return;
 	}
 
+	// movement
 	_.each(keys, function (active, key) {
 		if (active) {
 			accelerate();
@@ -94,13 +100,38 @@ function draw() {
 		deccelerate();
 	}
 
+	// drawing
 	clearDisplay();
-	//ctx.fillStyle = "rgb(200, 0, 0)";
 	ctx.fillStyle = "rgb(" + Math.floor(200 / MAX_ACCEL * accel) + ", 0, 0)";
 	ctx.fillRect(x, y, 50, 50);
 
+	var i,
+		offset = 10,
+		size = 25;
+
+	ctx.fillStyle = "rgba(200, 0, 0, 0.5)";
+
+	for (i = 0; i < (width / (size + offset)); i++) {
+		ctx.fillRect(
+			offset + i * (size + offset), // x
+			scale_int(Math.sin(y2 / 10 + (i / 2)), -1, 1, 100, height - size - 100), // y
+			size, size // width, height
+		);
+	}
+
+	size = 5;
 	ctx.fillStyle = "rgba(0, 0, 200, 0.5)";
-	ctx.fillRect(30, 30, 50, 50);
+
+	for (i = 0; i < (width / (size + offset)); i++) {
+		ctx.fillRect(
+			offset + i * (size + offset), // x
+			scale_int(Math.cos(y2 / 50), -1, 1, 0, height - size), // y
+			size, size // width, height
+		);
+	}
+
+	// bookkeeping
+	y2++;
 
 	requestAnimationFrame(draw);
 	stats.end();
