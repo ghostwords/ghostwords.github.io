@@ -107,14 +107,17 @@ function draw() {
 
 	var i,
 		offset = 10,
+		sin,
 		size = 25;
 
-	ctx.fillStyle = "rgba(200, 0, 0, 0.5)";
-
 	for (i = 0; i < (width / (size + offset)); i++) {
+		sin = Math.sin(y2 / 10 + (i / 2));
+
+		ctx.fillStyle = "rgba(" + scale_int(sin, -1, 1, 255, 0) + ", 0, 0, 0.5)";
+
 		ctx.fillRect(
 			offset + i * (size + offset), // x
-			scale_int(Math.sin(y2 / 10 + (i / 2)), -1, 1, 100, height - size - 100), // y
+			scale_int(sin, -1, 1, 100, height - size - 100), // y
 			size, size // width, height
 		);
 	}
