@@ -232,13 +232,14 @@ function draw_wave(wave) {
 function draw() {
 	clearDisplay();
 
+	draw_wave(wave3);
+	draw_wave(wave2);
+
 	// the box
 	ctx.fillStyle = "rgb(" + Math.floor(200 / MAX_ACCEL * box.accel) + ", 0, 0)";
 	ctx.fillRect(box.x, box.y, box.width, box.height);
 
 	draw_wave(wave);
-	draw_wave(wave2);
-	draw_wave(wave3);
 }
 
 function gameloop() {
