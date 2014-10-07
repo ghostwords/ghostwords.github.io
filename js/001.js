@@ -1,24 +1,8 @@
 /*global Hammer, Mousetrap, Stats, _ */
 
-var box = {
-		accel: 1,
-		speed: 1,
-
-		grabbed: false,
-		grab_offset_x: 0,
-		grab_offset_y: 0,
-
-		width: 50,
-		height: 50,
-
-		x: 10,
-		y: 10
-	},
-
-	MAX_ACCEL = 20,
+var MAX_ACCEL = 20,
 	pause = false,
 	tick = 0,
-	wave_period = -3.0,
 
 	keys = {
 		'up': false,
@@ -26,7 +10,9 @@ var box = {
 		'left': false,
 		'right': false,
 		'w': false,
-		's': false
+		'a': false,
+		's': false,
+		'd': false
 	},
 	movement_keys = ['up', 'down', 'left', 'right'],
 
@@ -88,13 +74,37 @@ function intersects(o1, o2) {
 		o1_y1 < o2_y2 && o1_y2 > o2_y1;
 }
 
-// setup
+// canvas setup
 resize_canvas();
 $(window).resize(function () {
 	resize_canvas();
 	draw();
 });
 
+// general setup
+var box = {
+	accel: 1,
+	speed: 1,
+
+	grabbed: false,
+	grab_offset_x: 0,
+	grab_offset_y: 0,
+
+	width: canvas_height / 3,
+	height: canvas_height / 3,
+
+	x: 0,
+	y: 0
+};
+box.x = (canvas_width - box.width) / 2;
+box.y = (canvas_height - box.height) / 2;
+
+var wave = {
+	period: -3.0,
+	size: 4
+};
+
+// mousing
 $(canvas).mousemove(function (e) {
 	if (intersects({
 		x: e.clientX,
@@ -106,6 +116,7 @@ $(canvas).mousemove(function (e) {
 	}
 });
 
+// touching
 mc.on('panstart', function (e) {
 	if (intersects({
 		x: e.center.x,
@@ -128,12 +139,7 @@ mc.on('panend', function () {
 	box.grabbed = false;
 });
 
-stats.domElement.style.position = 'absolute';
-stats.domElement.style.right = '0px';
-stats.domElement.style.top = '0px';
-document.body.appendChild(stats.domElement);
-
-// keys
+// keying
 _.each(_.keys(keys), function (key) {
 	Mousetrap.bind(key, function () {
 		keys[key] = true;
@@ -150,6 +156,12 @@ Mousetrap.bind('space', function () {
 	}
 });
 
+// FPS counter
+stats.domElement.style.position = 'absolute';
+stats.domElement.style.right = '0px';
+stats.domElement.style.top = '0px';
+document.body.appendChild(stats.domElement);
+
 function draw() {
 	clearDisplay();
 
@@ -157,30 +169,33 @@ function draw() {
 	ctx.fillRect(box.x, box.y, box.width, box.height);
 
 	var i,
-		size = 4,
+		margin = canvas_height / 4,
 		spacing = 0,
-		wave;
+		speed = 100,
+		wave_val;
 
-	for (i = 0; i < (canvas_width / (size + spacing)); i++) {
-		wave = Math.tan(tick / 100 + (i / wave_period));
+	for (i = 0; i < (canvas_width / (wave.size + spacing)); i++) {
+		wave_val = Math.tan(tick / speed + (i / wave.period));
 
-		ctx.fillStyle = "rgba(" + scale_int(wave, -1, 1, 255, 0) + ", 0, 0, 0.5)";
+		ctx.fillStyle = "rgba(" + scale_int(wave_val, -1, 1, 255, 0) + ", 0, 0, 0.5)";
 
 		ctx.fillRect(
-			spacing + i * (size + spacing), // x
-			scale_int(wave, -1, 1, 100, canvas_height - size - 100), // y
-			size, size // width, height
+			spacing + i * (wave.size + spacing), // x
+			scale_int(wave_val, -1, 1, margin, canvas_height - wave.size - margin), // y
+			wave.size, wave.size // width, height
 		);
 	}
 
-	size = 5;
+	margin = 0;
+	var size = 5;
 	spacing = 10;
+	speed = 50;
 	ctx.fillStyle = "rgba(0, 0, 200, 0.5)";
 
 	for (i = 0; i < (canvas_width / (size + spacing)); i++) {
 		ctx.fillRect(
 			spacing + i * (size + spacing), // x
-			scale_int(Math.cos(tick / 50), -1, 1, 0, canvas_height - size), // y
+			scale_int(Math.cos(tick / speed), -1, 1, margin, canvas_height - size - margin), // y
 			size, size // width, height
 		);
 	}
@@ -211,9 +226,15 @@ function gameloop() {
 		} else if (key == 'right') {
 			box.x += box.speed * box.accel;
 		} else if (key == 'w') {
-			wave_period += 0.1;
+			wave.size++;
 		} else if (key == 's') {
-			wave_period -= 0.1;
+			if (wave.size > 1) {
+				wave.size--;
+			}
+		} else if (key == 'a') {
+			wave.period += 0.1;
+		} else if (key == 'd') {
+			wave.period -= 0.1;
 		}
 	});
 
