@@ -135,7 +135,7 @@ var wave3 = {
 		return wave3.size * (1 + Math.abs(wave_val));
 	},
 	fillStyle: function (wave_val) {
-		return "rgba(" + scale_int(wave_val, -1, 1, 0, 255) + ", " + scale_int(wave_val, -1, 1, 0, 0) + ", " + scale_int(wave_val, -1, 1, 255, 0) + ", 0.2)";
+		return "rgba(" + scale_int(wave_val, -1, 1, 0, 255) + ", 0, " + scale_int(wave_val, -1, 1, 255, 0) + ", 0.2)";
 	},
 	margin: canvas_height / 2,
 	size: 57,
