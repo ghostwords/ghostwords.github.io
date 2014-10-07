@@ -96,8 +96,14 @@ var box = {
 	x: 0,
 	y: 0
 };
-box.x = (canvas_width - box.width) / 2;
-box.y = (canvas_height - box.height) / 2;
+function resize_and_recenter_box() {
+	box.width = canvas_height / 3;
+	box.height = canvas_height / 3;
+	box.x = (canvas_width - box.width) / 2;
+	box.y = (canvas_height - box.height) / 2;
+}
+resize_and_recenter_box();
+$(window).resize(resize_and_recenter_box);
 
 var wave = {
 	period: -3.0,
