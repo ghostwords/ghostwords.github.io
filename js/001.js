@@ -17,8 +17,8 @@ var box = {
 
 	MAX_ACCEL = 20,
 	pause = false,
-	sine_period = 2,
 	tick = 0,
+	wave_period = -3.0,
 
 	keys = {
 		'up': false,
@@ -157,23 +157,24 @@ function draw() {
 	ctx.fillRect(box.x, box.y, box.width, box.height);
 
 	var i,
-		sin,
-		size = 25,
-		spacing = 10;
+		size = 4,
+		spacing = 0,
+		wave;
 
 	for (i = 0; i < (canvas_width / (size + spacing)); i++) {
-		sin = Math.sin(tick / 10 + (i / sine_period));
+		wave = Math.tan(tick / 100 + (i / wave_period));
 
-		ctx.fillStyle = "rgba(" + scale_int(sin, -1, 1, 255, 0) + ", 0, 0, 0.5)";
+		ctx.fillStyle = "rgba(" + scale_int(wave, -1, 1, 255, 0) + ", 0, 0, 0.5)";
 
 		ctx.fillRect(
 			spacing + i * (size + spacing), // x
-			scale_int(sin, -1, 1, 100, canvas_height - size - 100), // y
+			scale_int(wave, -1, 1, 100, canvas_height - size - 100), // y
 			size, size // width, height
 		);
 	}
 
 	size = 5;
+	spacing = 10;
 	ctx.fillStyle = "rgba(0, 0, 200, 0.5)";
 
 	for (i = 0; i < (canvas_width / (size + spacing)); i++) {
@@ -210,11 +211,9 @@ function gameloop() {
 		} else if (key == 'right') {
 			box.x += box.speed * box.accel;
 		} else if (key == 'w') {
-			sine_period++;
+			wave_period += 0.1;
 		} else if (key == 's') {
-			if (sine_period > 2) {
-				sine_period--;
-			}
+			wave_period -= 0.1;
 		}
 	});
 
