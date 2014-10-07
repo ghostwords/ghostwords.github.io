@@ -74,6 +74,24 @@ function intersects(o1, o2) {
 		o1_y1 < o2_y2 && o1_y2 > o2_y1;
 }
 
+// http://bost.ocks.org/mike/shuffle/
+function shuffle(array) {
+	var m = array.length, t, i;
+
+	// while there remain elements to shuffle ...
+	while (m) {
+		// pick a remaining element ...
+		i = Math.floor(Math.random() * m--);
+
+		// and swap it with the current element
+		t = array[m];
+		array[m] = array[i];
+		array[i] = t;
+	}
+
+	return array;
+}
+
 // canvas setup
 resize_canvas();
 $(window).resize(function () {
@@ -143,6 +161,32 @@ var wave3 = {
 		return Math.cos(tick / 50 + (i / -0.16));
 	}
 };
+
+var shapes = [
+	[
+		'**',
+		' **'
+	],
+	[
+		' **',
+		'**'
+	],
+	[
+		'****',
+	],
+	[
+		'*',
+		'***'
+	],
+	[
+		'  *',
+		'***'
+	],
+	[
+		'**',
+		'**'
+	]
+];
 
 // mousing
 $(canvas).mousemove(function (e) {
@@ -229,6 +273,27 @@ function draw_wave(wave) {
 	}
 }
 
+function draw_shape(shape, shape_num) {
+	var size = canvas_height / 4 / shapes.length,
+		shapes_width = size * 4,
+		shapes_height = shapes.length * size * 3;
+
+	ctx.fillStyle = "rgb(255, 255, 255)";
+
+	shape.forEach(function (row, i) {
+		_.each(row, function (item, j) {
+			if (item == '*') {
+				ctx.fillRect(
+					((canvas_width - shapes_width) / 2) + (j * size),
+					((canvas_height - shapes_height) / 2) + ((i + (shape.length == 1 ? 1 : 0)) * size) + (shape_num * size * 3),
+					size,
+					size
+				);
+			}
+		});
+	});
+}
+
 function draw() {
 	clearDisplay();
 
@@ -238,6 +303,11 @@ function draw() {
 	// the box
 	ctx.fillStyle = "rgb(" + Math.floor(200 / MAX_ACCEL * box.accel) + ", 0, 0)";
 	ctx.fillRect(box.x, box.y, box.width, box.height);
+
+	if (tick % 20 === 0) {
+		shapes = shuffle(shapes);
+	}
+	shapes.forEach(draw_shape);
 
 	draw_wave(wave);
 }
