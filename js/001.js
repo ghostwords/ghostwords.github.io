@@ -106,8 +106,42 @@ resize_and_recenter_box();
 $(window).resize(resize_and_recenter_box);
 
 var wave = {
+	distortHeight: function (wave_val) {
+		return wave.size * (1 + Math.abs(wave_val));
+	},
+	fillStyle: function (wave_val) {
+		return "rgba(" + scale_int(wave_val, -1, 1, 255, 0) + ", 0, 0, 0.5)";
+	},
+	margin: canvas_height / 4,
 	period: -3.0,
-	size: 4
+	size: 4,
+	waveFunc: function (i) {
+		return Math.tan(tick / 200 + (i / wave.period));
+	}
+};
+var wave2 = {
+	fillStyle: "rgba(0, 0, 200, 0.5)",
+	size: 5,
+	spacing: 10,
+	waveFunc: function () {
+		return Math.cos(tick / 50);
+	}
+};
+var wave3 = {
+	distortWidth: function (wave_val) {
+		return wave3.size / (1 + Math.abs(wave_val));
+	},
+	distortHeight: function (wave_val) {
+		return wave3.size * (1 + Math.abs(wave_val));
+	},
+	fillStyle: function (wave_val) {
+		return "rgba(" + scale_int(wave_val, -1, 1, 0, 255) + ", " + scale_int(wave_val, -1, 1, 0, 0) + ", " + scale_int(wave_val, -1, 1, 255, 0) + ", 0.2)";
+	},
+	margin: canvas_height / 2,
+	size: 57,
+	waveFunc: function (i) {
+		return Math.cos(tick / 50 + (i / -0.16));
+	}
 };
 
 // mousing
@@ -168,43 +202,43 @@ stats.domElement.style.right = '0px';
 stats.domElement.style.top = '0px';
 document.body.appendChild(stats.domElement);
 
-function draw() {
-	clearDisplay();
+function draw_wave(wave) {
+	var fill_style_func = false,
+		margin = wave.margin || 0,
+		spacing = wave.spacing || 0;
 
-	ctx.fillStyle = "rgb(" + Math.floor(200 / MAX_ACCEL * box.accel) + ", 0, 0)";
-	ctx.fillRect(box.x, box.y, box.width, box.height);
+	if (_.isString(wave.fillStyle)) {
+		ctx.fillStyle = wave.fillStyle;
+	} else if (_.isFunction(wave.fillStyle)) {
+		fill_style_func = true;
+	}
 
-	var i,
-		margin = canvas_height / 4,
-		spacing = 0,
-		speed = 100,
-		wave_val;
+	for (var i = 0; i < (canvas_width / (wave.size + spacing)); i++) {
+		var wave_val = wave.waveFunc(i);
 
-	for (i = 0; i < (canvas_width / (wave.size + spacing)); i++) {
-		wave_val = Math.tan(tick / speed + (i / wave.period));
-
-		ctx.fillStyle = "rgba(" + scale_int(wave_val, -1, 1, 255, 0) + ", 0, 0, 0.5)";
+		if (fill_style_func) {
+			ctx.fillStyle = wave.fillStyle(wave_val, i);
+		}
 
 		ctx.fillRect(
 			spacing + i * (wave.size + spacing), // x
 			scale_int(wave_val, -1, 1, margin, canvas_height - wave.size - margin), // y
-			wave.size, wave.size // width, height
+			(wave.distortWidth ? wave.distortWidth(wave_val, i) : wave.size), // width
+			(wave.distortHeight ? wave.distortHeight(wave_val, i) : wave.size)  // height
 		);
 	}
+}
 
-	margin = 0;
-	var size = 5;
-	spacing = 10;
-	speed = 50;
-	ctx.fillStyle = "rgba(0, 0, 200, 0.5)";
+function draw() {
+	clearDisplay();
 
-	for (i = 0; i < (canvas_width / (size + spacing)); i++) {
-		ctx.fillRect(
-			spacing + i * (size + spacing), // x
-			scale_int(Math.cos(tick / speed), -1, 1, margin, canvas_height - size - margin), // y
-			size, size // width, height
-		);
-	}
+	// the box
+	ctx.fillStyle = "rgb(" + Math.floor(200 / MAX_ACCEL * box.accel) + ", 0, 0)";
+	ctx.fillRect(box.x, box.y, box.width, box.height);
+
+	draw_wave(wave);
+	draw_wave(wave2);
+	draw_wave(wave3);
 }
 
 function gameloop() {
@@ -238,9 +272,9 @@ function gameloop() {
 				wave.size--;
 			}
 		} else if (key == 'a') {
-			wave.period += 0.1;
+			wave.period += 0.01;
 		} else if (key == 'd') {
-			wave.period -= 0.1;
+			wave.period -= 0.01;
 		}
 	});
 
