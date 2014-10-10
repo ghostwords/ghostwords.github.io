@@ -1,0 +1,703 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>What is Web tracking, why it matters, and what to do about it.</title>
+
+		<meta name="description" content="An introduction to Web tracking.">
+		<meta name="author" content="ghostwords">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="reveal.js/css/reveal.min.css">
+		<link rel="stylesheet" href="css/custom.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="reveal.js/lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+		<script>
+			if( window.location.search.match( /print-pdf/gi ) ) {
+				var link = document.createElement( 'link' );
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = 'reveal.js/css/print/pdf.css';
+				document.getElementsByTagName( 'head' )[0].appendChild( link );
+			}
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="reveal.js/lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal"><div class="slides">
+
+			<section>
+				<h1>How 3rd Parties Track You Online</h1>
+				<hr>
+				<h4>What is Web tracking, why it matters, and what to do about it.</h4>
+				<aside class="notes" data-markdown>
+					- Notes go here.
+				</aside>
+			</section>
+
+			<section>
+				<h2>Privacy is a fundamental right</h2>
+			</section>
+
+			<section>
+				<ul>
+					<li>The Web's (current) business model is advertising.</li>
+					<li class="fragment">Advertising calls for collecting everything, always, forever.</li>
+					<li class="fragment">The Web's (current) business model takes your privacy away.</li>
+				</ul>
+			</section>
+
+			<section data-background-image="images/NSA_headquarters.jpg">
+				<blockquote>
+					The Internet is a surveillance state.
+					<cite>
+						<a href="http://edition.cnn.com/2013/03/16/opinion/schneier-internet-surveillance/">Bruce Schneier</a>
+					</cite>
+				</blockquote>
+			</section>
+
+			<section data-markdown>
+				- Web tracking is gathering data to build user profiles. Trackers are parts of pages you visit.
+				- Facebook Like buttons. On top of what you do on facebook.com, Facebook follows you around the Web. You don't have to click it or even see it to be tracked.
+				- A Facebook Like button knows your browser/computer info, your approximate location (from IP address), ... Enough to form a unique identifier. Correlated with your Facebook profile. Any page has access to this same data ... problematic when any given company has access to it over a large portion of the Web.
+				- Like Google. http://trends.builtwith.com/analytics/Google-Analytics
+			</section>
+
+			<section>
+				<h2>Building a (permanent) record.</h2>
+			</section>
+
+			<section data-markdown>
+				- To? Serve ads. Price discriminate? Decide who gets a loan/job and who doesn't? Help governments surveil? And in the future?
+				- Telling sexual orientation from Facebook Like data. http://www.pnas.org/content/110/15/5802 Browsing data? Who you follow on Twitter? Poland's Operation Hyacinth / "pink files".
+				- Privacy tools can help with passive tracking. Incognito/Private Browsing modes help too, but incompletely, since storing things on your computer is only part of the problem.
+				- But not with what you search for, what you post, Tweet, Like, which apps you install, what you buy with credit cards, ... What you look at in stores? Our phones are physical tracking devices.
+			</section>
+
+			<section>
+				<h3>
+					<a href="https://adblockplus.org/"><img alt="Adblock Plus logo" src="images/ABP.png" height="180"></a>
+					&nbsp;/
+					<a href="https://www.ghostery.com/"><img alt="Ghostery logo" src="images/Ghostery.png" height="180"></a>
+					/&nbsp;
+					<a href="https://disconnect.me/disconnect"><img alt="Disconnect logo" src="images/disconnect.png" height="180"></a>
+					/&nbsp;
+					<a href="https://www.eff.org/privacybadger"><img alt="Privacy Badger logo" src="images/privacy_badger.png" height="180"></a>
+					/ ...
+				</h3>
+			</section>
+
+			<section>
+				<h2>Resources</h2>
+				<ul>
+					<li><a href="http://chronicle.com/article/Why-Privacy-Matters-Even-if/127461/">Why Privacy Matters Even if You Have 'Nothing to Hide'</a> by Daniel J. Solove</li>
+					<li><a href="http://www.theatlantic.com/technology/archive/2014/08/advertising-is-the-internets-original-sin/376041/?single_page=true">The Internet's Original Sin</a> by Ethan Zuckerman</li>
+				</ul>
+			</section>
+
+			<section>
+				<h1>THE END</h1>
+				<h3>
+					<a href="https://ghostwords.github.io/tracking-workshop-2014/">ghostwords.github.io/tracking-workshop-2014/</a>
+				</h3>
+				<hr>
+				<h4>
+					Upcoming talk (Monday October 20th 2014):
+					<br>
+					<a href="https://www.eventbrite.com/e/tracked-online-how-its-done-how-you-can-protect-yourself-ta3m-tickets-13390917595">Tracked Online: How it's done & how you can protect yourself</a>
+				</h4>
+			</section>
+
+			<!--
+			<section data-background="rgb(198,233,229)">
+				<img alt="Julia Angwin's tweet about Strongbox" src="images/julia.png" width="80%" height="80%">
+			</section>
+
+			<section>
+				<img alt="Strongbox screenshot" src="images/strongbox.png">
+			</section>
+
+			<section>
+				<img alt="The Guardian screenshot" src="images/guardian.png">
+			</section>
+
+			<section>
+				<img alt="Washington Post screenshot" src="images/washington_post.png">
+			</section>
+
+			<section>
+				<img alt="Facebook Like" src="images/dislike.png">
+			</section>
+
+			<section>
+				<h2>What is tracking?</h2>
+				<h1>Gathering data to build user profiles</h1>
+			</section>
+
+			<section>
+				<h2>Trackers build profiles about you</h2>
+				<div>
+					<div class="fragment" style="float:left">
+						<img alt="User profile illustration" src="images/herpes.png">
+						<br>
+						&mdash; <a href="http://donttrack.us/">donttrack.us</a>
+					</div>
+					<div class="fragment">
+						<h3>Decisions big and small</h3>
+						<ul>
+							<li>Which ad to show</li>
+							<li>Which rate to offer</li>
+							<li>Who doesn't get the job</li>
+							<li>...</li>
+							<li>Who goes to prison</li>
+						</ul>
+					</div>
+				</div>
+			</section>
+
+			<section>
+				<h3>Google Ads Preferences Manager</h3>
+				<h4>
+					<a href="https://www.google.com/settings/ads/onweb/">www.google.com/settings/ads/onweb/</a>
+				</h4>
+				<img alt="Google Ads settings screenshot" src="images/ga_pref_manager.png" style="border:1px solid #eee">
+			</section>
+
+			<section class="left">
+				<h2>What kind of data?</h2>
+				<h3>Online</h3>
+				<ul>
+					<li>Page visits</li>
+					<li>Searches</li>
+					<li>Social profiles</li>
+					<li>Likes/retweets/reblogs</li>
+					<li>Mail</li>
+					<li>...</li>
+				</ul>
+				<h3>Offline</h3>
+				<ul>
+					<li>Credit/gift card purchases</li>
+					<li>Financial (credit/mortgage/bank)</li>
+					<li>Geographic</li>
+					<li>...</li>
+				</ul>
+			</section>
+
+			<section data-background="black">
+				<h1 style="color:pink">PORN</h1>
+			</section>
+
+			<section class="left">
+				<h2>Who are you to a tracker?</h2>
+				<h3>It depends</h3>
+				<ul class="fragment">
+					<li>Facebook/Gmail/Twitter</li>
+					<li>Google Ads</li>
+					<li>Foursquare</li>
+					<li><a href="http://euclidanalytics.com/">Euclid Analytics</a>/<a href="http://getnomi.com/">Nomi</a></li>
+					<li>...</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>So how much tracking is there?</h2>
+				<div class="left">
+					<h3>Websites in Ghostrank for June 2013</h3>
+					<br>
+					<div class="fragment">
+						<span class="percentage-bar" style="background-color:rgb(0,205,255); width:13%">
+							&nbsp;13%
+						</span>
+						<br>
+						<h4>
+							integrate with Twitter
+						</h4>
+					</div>
+					<br>
+					<div class="fragment">
+						<span class="percentage-bar" style="background-color:rgb(58,88,187); width:21%">
+							&nbsp;21%
+						</span>
+						<br>
+						<h4>
+							integrate with Facebook
+						</h4>
+					</div>
+					<br>
+					<div class="fragment">
+						<span class="percentage-bar" style="background-color:rgb(27,87,222); width:69%">
+							&nbsp;69%
+						</span>
+						<br>
+						<h4>
+							have Google Analytics
+						</h4>
+					</div>
+				</div>
+			</section>
+
+			<section>
+				<h1>Huh</h1>
+			</section>
+
+			<section class="left">
+				<h2>How do I track thee? (on the Web)</h2>
+				<h3 class="fragment">Client-side</h3>
+				<ul>
+					<li class="fragment">Standard HTTP Cookies</li>
+					<li class="fragment">Local Shared Objects (Flash Cookies)</li>
+					<li class="fragment">Silverlight Isolated Storage</li>
+					<li class="fragment">Storing cookies in PNGs</li>
+					<li class="fragment">Storing cookies in Web History</li>
+					<li class="fragment">Storing cookies in HTTP ETags</li>
+					<li class="fragment">Storing cookies in Web cache</li>
+					<li class="fragment">window.name caching</li>
+					<li class="fragment">Internet Explorer userData storage</li>
+					<li class="fragment">HTML5 Session/Local/Global Storage</li>
+					<li class="fragment">HTML5 Database Storage via SQLite / IndexedDB</li>
+				</ul>
+				<div class="fragment">
+					&mdash; <a href="http://samy.pl/evercookie/">evercookie</a>
+				</div>
+			</section>
+
+			<section>
+				<img alt="Clear Private Data screenshot" src="images/clear_private_data.png">
+			</section>
+
+			<section data-background="pink">
+				<h2 style="color: #c00; border-bottom: solid white">Samy "I'm Popular" Kamkar</h2>
+				<img alt="Samy Kamkar profile photo" src="images/samy_kamkar.png">
+			</section>
+
+			<section class="left">
+				<h2>How do I track thee, pt. 2</h2>
+				<h3>Server-side: Device/browser fingerprinting</h3>
+				<ul>
+					<li class="fragment">
+						Server creates fingerprint based on browser request signals
+						<ul>
+							<li>User Agent</li>
+							<li>Screen Size</li>
+							<li>Fonts</li>
+							<li>Browser plugins</li>
+							<li>IP address</li>
+							<li>...</li>
+						</ul>
+					</li>
+					<li class="fragment">Undetectable on the client side</li>
+					<li class="fragment">Can effectively persist across browsers/devices</li>
+					<li class="fragment">Already an industry: BlueCava, ThreatMetrix, ReputationManager, ...</li>
+				</ul>
+			</section>
+
+			<section>
+				<h3>
+					<img alt="Adblock Plus logo" src="images/ABP.png" height="180">
+					&nbsp;/
+					<img alt="Ghostery logo" src="images/Ghostery.png" height="180">
+					/&nbsp;
+					<img alt="Disconnect logo" src="images/disconnect.png" height="180">
+					/&nbsp;
+					<img alt="Privacy Badger logo" src="images/privacy_badger.png" height="180">
+					/ ...
+				</h3>
+			</section>
+
+			<section>
+				<img alt="The Wall Street Journal screenshot" src="images/wsj.png">
+			</section>
+
+			<section>
+				<img alt="Ghostery's options page screenshot" src="images/ghostery_options.png">
+			</section>
+
+			<section class="left">
+				<h2>What are trackers?</h2>
+				<h3>Web page elements</h3>
+				<ul class="fragment">
+					<li>scripts</li>
+					<li>images</li>
+					<li>iframes</li>
+					<li>embedded objects (Flash)</li>
+					<li>...</li>
+				</ul>
+			</section>
+
+			<section data-background="orange">
+				<h4 style="margin-bottom:40px">Terminology minute!</h4>
+				<h1>
+					First-party <span style="font-size:60%">vs.</span>
+					<br>
+					third-party <span style="font-size:60%">vs.</span>
+					<br>
+					fourth-party
+				</h1>
+			</section>
+
+			<section data-background="rgb(218,218,218)">
+				<img alt="Revenue Protection screenshot for Strongbox" src="images/revenue_protection.png">
+			</section>
+
+			<section>
+				<h1>So how does tracking work?</h1>
+			</section>
+
+			<section>
+				<table class="striped-table">
+					<tr>
+						<td>
+							Request URL:
+						</td>
+						<td>
+							http://www.newyorker.com/strongbox/
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Request Method:
+						</td>
+						<td>
+							GET
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Status Code:
+						</td>
+						<td>
+							200 OK
+						</td>
+					</tr>
+				</table>
+			</section>
+
+			<section>
+				<h3>Request headers</h3>
+				<table class="striped-table">
+					<tr>
+						<td>
+							Accept:
+						</td>
+						<td>
+							text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Accept-Encoding:
+						</td>
+						<td>
+							gzip,deflate,sdch
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Accept-Language:
+						</td>
+						<td>
+							en-US,en;q=0.8
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Cache-Control:
+						</td>
+						<td>
+							no-cache
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Connection:
+						</td>
+						<td>
+							keep-alive
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Cookie:
+						</td>
+						<td>
+							mobify=0; mbox=check#true#1372203648|session#1372203589523-979009#1372205448
+						</td>
+					</tr>
+					<tr>
+						<td>
+							DNT:
+						</td>
+						<td>
+							1
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Host:
+						</td>
+						<td>
+							www.newyorker.com
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Pragma:
+						</td>
+						<td>
+							no-cache
+						</td>
+					</tr>
+					<tr>
+						<td>
+							User-Agent:
+						</td>
+						<td>
+							Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1541.0 Safari/537.36
+						</td>
+					</tr>
+				</table>
+			</section>
+
+			<section>
+				<h3>Response headers</h3>
+				<table class="striped-table">
+					<tr>
+						<td>
+							Accept-Ranges:
+						</td>
+						<td>
+							bytes
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Access-Control-Allow-Origin:
+						</td>
+						<td>
+							*
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Cache-Control:
+						</td>
+						<td>
+							max-age=358
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Connection:
+						</td>
+						<td>
+							keep-alive
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Content-Encoding:
+						</td>
+						<td>
+							gzip
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Content-Length:
+						</td>
+						<td>
+							30018
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Content-Type:
+						</td>
+						<td>
+							text/html; charset=ISO-8859-1
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Date:
+						</td>
+						<td>
+							Tue, 25 Jun 2013 23:39:59 GMT
+						</td>
+					</tr>
+					<tr>
+						<td>
+							ETag:
+						</td>
+						<td>
+							"a647b0-d556-4dcc54324dd00"
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Expires:
+						</td>
+						<td>
+							Tue, 25 Jun 2013 23:45:57 GMT
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Last-Modified:
+						</td>
+						<td>
+							Wed, 15 May 2013 17:41:40 GMT
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Server:
+						</td>
+						<td>
+							Apache/2.2.15 (Red Hat) mod_ssl/2.2.15 OpenSSL/1.0.0-fips
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Vary:
+						</td>
+						<td>
+							Accept-Encoding
+						</td>
+					</tr>
+				</table>
+			</section>
+
+			<section class="left">
+				<h2>Detection</h2>
+				<ul>
+					<li class="fragment">Intercept requests</li>
+					<li class="fragment">Compare request URLs to known tracker patterns</li>
+					<li class="fragment">Cancel requests matching blocked trackers</li>
+					<li class="fragment">No request, no tracking</li>
+				</ul>
+			</section>
+
+			<section class="left">
+				<h2>Tracking the trackers</h2>
+				<h3>Finding trackers</h3>
+				<ul>
+					<li>User reports</li>
+					<li>Tracker crawler</li>
+					<li>Companies ask to be included</li>
+				</ul>
+				<div class="fragment">
+					<h3>Defining Ghostery tracker patterns</h3>
+					<ul>
+						<li>Narrow enough to avoid false positives</li>
+						<li>Wide enough to catch all trackers resources</li>
+					</ul>
+				</div>
+			</section>
+
+			<section class="left">
+				<h2>Separating tracking from content</h2>
+				<h3 class="fragment">You can't, sometimes</h3>
+				<div class="fragment">
+					<ul>
+						<li>Disqus</li>
+						<li>Brightcove</li>
+						<li>social buttons</li>
+						<li>...</li>
+					</ul>
+					<img style="float:right" alt="Ghostery blocking Disqus Click-to-Play screenshot" src="images/disqus.png">
+				</div>
+			</section>
+
+			<section>
+				<h1>See Also</h1>
+			</section>
+
+			<section>
+				<div>
+					<h4 style="display:inline">Netograph</h4> / <a href="http://netograph.com/">netograph.com</a>
+				</div>
+				<img alt="Netograph screenshot" src="images/netograph.png">
+			</section>
+
+			<section>
+				<div>
+					<h4 style="display:inline">Mozilla Lightbeam</h4> / <a href="https://www.mozilla.org/lightbeam/">https://www.mozilla.org/lightbeam/</a>
+				</div>
+				<img alt="Collusion screenshot" src="images/collusion.png">
+			</section>
+
+			<section>
+				<div>
+					<h4 style="display:inline">Panopticlick</h4> / <a href="https://panopticlick.eff.org/">panopticlick.eff.org</a>
+				</div>
+				<img alt="panopticlick.eff.org screenshot" src="images/panopticlick.png" style="margin-bottom:0">
+			</section>
+
+			<section>
+				<div>
+					<h4 style="display:inline">DuckDuckGo</h4> / <a href="http://donttrack.us">donttrack.us</a>
+				</div>
+				<img alt="donttrack.us screenshot" src="images/donttrackus.png">
+			</section>
+			-->
+
+		</div></div>
+
+		<script src="reveal.js/lib/js/head.min.js"></script>
+		<script src="reveal.js/js/reveal.min.js"></script>
+
+		<script>
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: false,
+				progress: false,
+				history: true,
+				center: true,
+				transition: 'linear', // default/cube/page/concave/zoom/linear/fade/none
+				width: 1100,
+				//width: '100%',
+				//height: '100%',
+
+				// Parallax scrolling
+				//parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				//parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+			/*
+			Reveal.addEventListener('fragmentshown', function (event) {
+				// event.fragment = the fragment DOM element
+			});
+			Reveal.addEventListener( fragmenthidden', function (event) {
+				// event.fragment = the fragment DOM element
+			});
+			*/
+		</script>
+
+	</body>
+</html>
