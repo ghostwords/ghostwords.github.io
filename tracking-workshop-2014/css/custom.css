@@ -171,17 +171,6 @@ body {
 	box-shadow: none;
 	line-height: 1.45;
 }
-.reveal blockquote:before {
-	display: block;
-	padding-left: 10px;
-	content: "\201C";
-	font-size: 80px;
-	font-family: Georgia, serif;
-	position: absolute;
-	left: 0px;
-	top: 0px;
-	color: #7a7a7a;
-}
 .reveal blockquote p {
 	margin: 0;
 }
