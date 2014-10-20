@@ -18,7 +18,7 @@
 		<link rel="stylesheet" href="css/custom.css" id="theme">
 
 		<!-- For syntax highlighting -->
-		<link rel="stylesheet" href="reveal.js/lib/css/zenburn.css">
+		<link rel="stylesheet" href="css/highlight.js.googlecode.css">
 
 		<!-- If the query includes 'print-pdf', include the PDF print sheet -->
 		<script>
@@ -40,7 +40,7 @@
 
 		<div class="reveal"><div class="slides">
 
-			<section>
+			<section data-background="images/trackedonline.jpg" style="background:none">
 				<h1>Tracked Online</h1>
 				<hr>
 				<h2>How it's done &amp; how you can protect yourself</h2>
@@ -80,6 +80,8 @@
 				</ul>
 
 				<aside class="notes" data-markdown>
+					- Privacy is one of those things that you don't miss until it's gone ... Easy to take for granted.
+					- The Web is not free. When you visit The Daily Mail to get the latest on Kim K's butt, ...
 					- The Web's (current) business model takes your privacy away.
 					- Bruce Schneier, a leading security and privacy expert, ...
 				</aside>
@@ -98,9 +100,8 @@
 				<h2>What is Web tracking?</h2>
 				<ul>
 					<li>Web tracking is collecting everything you do online.</li>
-					<li class="fragment">Trackers are parts of pages you visit.</li>
-					<li class="fragment">For example, Facebook Like buttons.</li>
-					<li class="fragment">If you click the button, we can call that "active" tracking.</li>
+					<li class="fragment">Trackers are parts of pages you visit. For example, Facebook Like buttons.</li>
+					<li class="fragment">If you click a Like button, we can call that "active" tracking.</li>
 					<li class="fragment">If you don't, you still get tracked. Let's call that "passive" tracking.</li>
 				</ul>
 
@@ -190,8 +191,16 @@
 				</ul>
 
 				<aside class="notes" data-markdown>
-					It depends.
+					- It depends.
+					- Axciom: groups people into so-called "segments": Ford truck owners, Kim K fans, ...
+					- Paramount Lists: keeps lists of addicts and debtors.
+					- Web tracking augmented by data from consumer health websites, payday lenders, online surveys, warranty registrations, Internet sweepstakes, loyalty-card data from retailers, charities' donor lists, magazine subscription lists,information from public records, ...
 				</aside>
+			</section>
+
+			<section>
+				<h3>Display Advertising Technology Landscape</h3>
+				<img src="images/LUMA-display-ad-map.jpg">
 			</section>
 
 			<section class="left">
@@ -256,6 +265,24 @@
 					<li>...</li>
 				</ul>
 			</section>
+
+			<section>
+				<h2>Google Analytics</h2>
+				<pre><code>&lt;script type="text/javascript"&gt;
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-XXXXX-X']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ?
+      'https://ssl' : 'http://www') +
+        '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+&lt;/script&gt;</code></pre>
+</section>
 
 			<section data-background="orange">
 				<h4 style="margin-bottom:40px">Terminology minute!</h4>
@@ -583,6 +610,7 @@
 			<section>
 				<h2>Good reading</h2>
 				<ul>
+					<li><a href="http://online.wsj.com/public/page/what-they-know-digital-privacy.html">The Wall Street Journal's What They Know series</a></li>
 					<li><a href="http://chronicle.com/article/Why-Privacy-Matters-Even-if/127461/">Why Privacy Matters Even if You Have 'Nothing to Hide'</a> by Daniel J. Solove</li>
 					<li><a href="http://www.theatlantic.com/technology/archive/2014/08/advertising-is-the-internets-original-sin/376041/?single_page=true">The Internet's Original Sin</a> by Ethan Zuckerman</li>
 				</ul>
@@ -597,9 +625,10 @@
 				<h3>
 					<a href="https://ghostwords.github.io/ta3m-2014/">ghostwords.github.io/ta3m-2014/</a>
 				</h3>
-				<hr>
 				<h3>
+					<img src="images/chameleon.png">
 					<a href="https://github.com/ghostwords/chameleon">github.com/ghostwords/chameleon</a>
+					<img src="images/chameleon.png">
 				</h3>
 			</section>
 

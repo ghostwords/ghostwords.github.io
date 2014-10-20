@@ -137,9 +137,8 @@ body {
 
 .reveal pre {
 	border-color: #ccc;
-}
-.reveal code {
-	color: #888;
+	box-shadow: none;
+	font-size: 24px;
 }
 
 .reveal blockquote {
