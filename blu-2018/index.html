@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Privacy Badger | BLU Lighting Talks 2018</title>
+
+		<meta name="description" content="An introduction to Privacy Badger.">
+		<meta name="author" content="ghostwords">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="reveal.js/css/reveal.min.css">
+		<link rel="stylesheet" href="css/custom.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="css/highlight.js.googlecode.css">
+
+		<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+		<script>
+			if( window.location.search.match( /print-pdf/gi ) ) {
+				var link = document.createElement( 'link' );
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = 'reveal.js/css/print/pdf.css';
+				document.getElementsByTagName( 'head' )[0].appendChild( link );
+			}
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="reveal.js/lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal"><div class="slides">
+
+			<section data-background="#EC9329" style="background:none">
+				<h1>Privacy Badger</h1>
+				<img src="images/pb-logo.svg">
+				<h2>How it works,<br>where we are taking it,<br>& what challenges we face</h2>
+				<h4>BLU Lighting Talks 2018</h4>
+				<h4>April 18th 2018</h4>
+			</section>
+
+			<section data-background="#EC9329" style="background:none">
+				<img src="images/eff-logo.png" style="width:auto">
+				<h2>A project of the Electronic Frontier Foundation</h2>
+
+				<aside class="notes" data-markdown>
+					Introduce yourself, EFF:
+
+					- non-profit here to protect your civil liberties in the digital world
+					- lawyers, activists and technologists
+					- let's encrypt, certbot, https everywhere and privacy badger
+				</aside>
+			</section>
+
+			<section>
+				<h2>What is Web tracking?</h2>
+				<ul>
+					<li>Web tracking is collecting everything you do online.</li>
+					<li class="fragment">Trackers are parts of pages you visit. For example, Facebook Like buttons.</li>
+					<li class="fragment">If you click a Like button, we can call that "active" tracking.</li>
+					<li class="fragment">If you don't, you still get tracked. Let's call that "passive" tracking.</li>
+				</ul>
+
+				<aside class="notes" data-markdown>
+					Facebook Like buttons that you see around the Web, not just on Facebook.
+				</aside>
+			</section>
+
+			<section class="left">
+				<h2>How do I track thee? (on the Web)</h2>
+				<h3 class="fragment">Client-side</h3>
+				<ul>
+					<li class="fragment">Standard HTTP Cookies</li>
+					<li class="fragment">Local Shared Objects (Flash Cookies)</li>
+					<li class="fragment">Silverlight Isolated Storage</li>
+					<li class="fragment">Storing cookies in PNGs</li>
+					<li class="fragment">Storing cookies in Web History</li>
+					<li class="fragment">Storing cookies in HTTP ETags</li>
+					<li class="fragment">Storing cookies in Web cache</li>
+					<li class="fragment">window.name caching</li>
+					<li class="fragment">Internet Explorer userData storage</li>
+					<li class="fragment">HTML5 Session/Local/Global Storage</li>
+					<li class="fragment">HTML5 Database Storage via SQLite / IndexedDB</li>
+				</ul>
+				<div class="fragment">
+					&mdash; <a href="http://samy.pl/evercookie/">evercookie</a>
+				</div>
+			</section>
+
+			<section class="left">
+				<h2>How do I track thee, pt. 2</h2>
+				<h3>Server-side: Device/browser fingerprinting</h3>
+				<ul>
+					<li class="fragment">
+						Server creates fingerprint based on browser request signals and script queries
+						<ul>
+							<li>User Agent</li>
+							<li>Screen Size</li>
+							<li>Fonts</li>
+							<li>Browser plugins</li>
+							<li>IP address</li>
+							<li>...</li>
+						</ul>
+					</li>
+					<li class="fragment">Hard to detect</li>
+					<li class="fragment">Can effectively persist across browsers/devices</li>
+					<li class="fragment">Already an industry: BlueCava, ThreatMetrix, ReputationManager, ...</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>Detection by URL matching</h2>
+				<ul>
+					<li class="fragment">Intercept requests</li>
+					<li class="fragment">Compare request URLs to known tracker URLs</li>
+					<li class="fragment">Cancel requests matching blocked trackers</li>
+					<li class="fragment">No request, no tracking</li>
+					<li class="fragment">Adblock Plus, Ghostery, ...</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>Heuristic-based detection</h2>
+				<ul>
+					<li class="fragment">
+						Intercept activity
+						<ul>
+							<li>Cookies</li>
+							<li>HTML5 local storage</li>
+							<li>Canvas fingerprinting</li>
+							<li>...</li>
+						</ul>
+					</li>
+					<li class="fragment">Apply heuristic</li>
+					<li class="fragment">Cancel requests matching offending domains</li>
+					<li class="fragment">No request, no tracking</li>
+					<li class="fragment">Privacy Badger, Safari's Intelligent Tracking Protection</li>
+				</ul>
+				<aside class="notes" data-markdown>
+					Why make your job harder? So that the EFF doesn't get into the business of say who and who isn't a tracker. We want to promote good practices and discourage bad practices. Look at ad blockers and their questionable decisions around filter lists.
+				</aside>
+			</section>
+
+			<section>
+				<h2>Challenges</h2>
+			</section>
+
+			<section data-background="images/whitelists-crappy-ad-companies.png" style="background:none"></section>
+
+			<section>
+				<h3>Blocks too much</h3>
+			</section>
+
+			<section data-background="images/broken-site-issues.png" style="background:none"></section>
+
+			<section>
+				<h3>Doesn't block enough</h3>
+			</section>
+
+			<section data-background="images/no-google-analytics-yet.png" style="background:none"></section>
+
+			<section>
+				<h2>The goal</h2>
+				Set and forget on anybody's computer
+
+				<aside class="notes" data-markdown>
+					Don't have to be technical or to even interact, think of Safari's Intelligent Tracking Protection).
+					Unlike ITP though, we do want some visibility. political goals
+
+					* raise awareness of tracking
+					* promote Do Not Track
+					  - still want to a signal even with GDPR
+					  - "the gold standard"
+				</aside>
+			</section>
+
+			<section>
+				<h2>How YOU can help</h2>
+				<ul>
+					<li>Open source: <a href="https://github.com/EFForg/privacybadger">github.com/EFForg/privacybadger</a></li>
+					<li>Report broken sites!</li>
+					<li>Improve translations!</li>
+					<li>Check out the <a href="https://github.com/EFForg/privacybadger/labels/good%20first%20issue">"good first issue"</a> and <a href="https://github.com/EFForg/privacybadger/labels/help%20wanted">"help wanted"</a>-labeled issues!</li>
+					<li>For more information, see <a href="https://github.com/EFForg/privacybadger/blob/master/CONTRIBUTING.md">CONTRIBUTING.md</a></li>
+				</ul>
+			</section>
+
+
+		</div></div>
+
+		<script src="reveal.js/lib/js/head.min.js"></script>
+		<script src="reveal.js/js/reveal.min.js"></script>
+
+		<script>
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+				transition: 'linear', // default/cube/page/concave/zoom/linear/fade/none
+				width: 1100,
+				//width: '100%',
+				//height: '100%',
+
+				// Parallax scrolling
+				//parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				//parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+			/*
+			Reveal.addEventListener('fragmentshown', function (event) {
+				// event.fragment = the fragment DOM element
+			});
+			Reveal.addEventListener( fragmenthidden', function (event) {
+				// event.fragment = the fragment DOM element
+			});
+			*/
+		</script>
+
+	</body>
+</html>

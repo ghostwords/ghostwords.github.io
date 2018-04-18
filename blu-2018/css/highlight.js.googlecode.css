@@ -1,0 +1,148 @@
+/*
+
+Google Code style (c) Aahan Krish <geekpanth3r@gmail.com>
+
+*/
+
+pre code {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  background: white;
+  color: black;
+  -webkit-text-size-adjust: none;
+}
+
+pre .comment,
+pre .template_comment,
+pre .javadoc {
+  color: #800;
+}
+
+pre .keyword,
+.method,
+pre .list pre .keyword,
+.nginx pre .title,
+pre .tag pre .title,
+.setting pre .value,
+pre .winutils,
+.tex pre .command,
+.http pre .title,
+pre .request,
+pre .status {
+  color: #008;
+}
+
+pre .envvar,
+.tex pre .special {
+  color: #660;
+}
+
+pre .string,
+pre .tag pre .value,
+pre .cdata,
+pre .filter pre .argument,
+pre .attr_selector,
+.apache pre .cbracket,
+pre .date,
+pre .regexp,
+.coffeescript pre .attribute {
+  color: #080;
+}
+
+pre .sub pre .identifier,
+pre .pi,
+pre .tag,
+pre .tag pre .keyword,
+pre .decorator,
+.ini pre .title,
+pre .shebang,
+pre .prompt,
+pre .hexcolor,
+pre .rules pre .value,
+pre .literal,
+pre .symbol,
+.ruby pre .symbol pre .string,
+pre .number,
+.css pre .function,
+.clojure pre .attribute {
+  color: #066;
+}
+
+pre .class pre .title,
+.smalltalk pre .class,
+pre .javadoctag,
+pre .yardoctag,
+pre .phpdoc,
+pre .dartdoc,
+pre .type,
+pre .typename,
+pre .tag pre .attribute,
+pre .doctype,
+pre .class pre .id,
+pre .built_in,
+.setting,
+pre .params,
+pre .variable {
+  color: #606;
+}
+
+.css pre .tag,
+pre .rules pre .property,
+pre .pseudo,
+pre .subst {
+  color: #000;
+}
+
+.css pre .class,
+.css pre .id {
+  color: #9b703f;
+}
+
+pre .value pre .important {
+  color: #ff7700;
+  font-weight: bold;
+}
+
+pre .rules pre .keyword {
+  color: #c5af75;
+}
+
+pre .annotation,
+.apache pre .sqbracket,
+.nginx pre .built_in {
+  color: #9b859d;
+}
+
+pre .preprocessor,
+pre .preprocessor *,
+pre .pragma {
+  color: #444;
+}
+
+.tex pre .formula {
+  background-color: #eee;
+  font-style: italic;
+}
+
+.diff pre .header,
+pre .chunk {
+  color: #808080;
+  font-weight: bold;
+}
+
+.diff pre .change {
+  background-color: #bccff9;
+}
+
+pre .addition {
+  background-color: #baeeba;
+}
+
+pre .deletion {
+  background-color: #ffc8bd;
+}
+
+pre .comment pre .yardoctag {
+  font-weight: bold;
+}
