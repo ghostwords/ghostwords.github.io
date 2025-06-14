@@ -1,6 +1,7 @@
 /* globals Hammer:true, Mousetrap:true, Stats:true */
+/* exported setup, update */
 
-var MAX_ACCEL = 20,
+let MAX_ACCEL = 20,
 	pause = false,
 	tick = 0,
 
@@ -14,26 +15,13 @@ var MAX_ACCEL = 20,
 		's': false,
 		'd': false
 	},
-	movement_keys = ['up', 'down', 'left', 'right'],
+	movementKeys = ['up', 'down', 'left', 'right'],
 
-	canvas = document.getElementsByTagName("canvas")[0],
-	canvas_width,
-	canvas_height,
-	ctx = canvas.getContext('2d'),
-
-	mc = new Hammer(canvas, {
-		recognizers: [[Hammer.Pan, { direction: Hammer.DIRECTION_ALL }]],
-		threshold: 0
-	}),
+	canvasCtx, canvas_width, canvas_height,
 
 	stats = new Stats();
 
-function resize_canvas() {
-	canvas_width = canvas.width = document.documentElement.clientWidth;
-	canvas_height = canvas.height = document.documentElement.clientHeight;
-}
-
-function scale_int(num, old_min, old_max, new_min, new_max) {
+function scaleInt(num, old_min, old_max, new_min, new_max) {
 	return Math.round((num - old_min) * (new_max - new_min) / (old_max - old_min) + new_min);
 }
 
@@ -52,11 +40,11 @@ function deccelerate() {
 }
 
 function clearDisplay() {
-	ctx.clearRect(0, 0, canvas_width, canvas_height);
+	canvasCtx.clearRect(0, 0, canvas_width, canvas_height);
 }
 
 function intersects(o1, o2) {
-	var o1_x1 = o1.x,
+	let o1_x1 = o1.x,
 		o1_x2 = o1.x + (o1.width || 1),
 		o1_y1 = o1.y,
 		o1_y2 = o1.y + (o1.height || 1),
@@ -71,7 +59,7 @@ function intersects(o1, o2) {
 
 // http://bost.ocks.org/mike/shuffle/
 function shuffle(array) {
-	var m = array.length, t, i;
+	let m = array.length, t, i;
 
 	// while there remain elements to shuffle ...
 	while (m) {
@@ -87,15 +75,8 @@ function shuffle(array) {
 	return array;
 }
 
-// canvas setup
-resize_canvas();
-window.addEventListener("resize", function () {
-	resize_canvas();
-	draw();
-});
-
 // general setup
-var box = {
+let box = {
 	accel: 1,
 	speed: 1,
 
@@ -115,15 +96,13 @@ function resize_and_recenter_box() {
 	box.x = (canvas_width - box.width) / 2;
 	box.y = (canvas_height - box.height) / 2;
 }
-resize_and_recenter_box();
-window.addEventListener("resize", resize_and_recenter_box);
 
-var wave = {
+let wave = {
 	distortHeight: function (wave_val) {
 		return wave.size * (1 + Math.abs(wave_val));
 	},
 	fillStyle: function (wave_val) {
-		return "rgba(" + scale_int(wave_val, -1, 1, 255, 0) + ", 0, 0, 0.5)";
+		return "rgba(" + scaleInt(wave_val, -1, 1, 255, 0) + ", 0, 0, 0.5)";
 	},
 	margin: canvas_height / 4,
 	period: -3.0,
@@ -132,7 +111,7 @@ var wave = {
 		return Math.tan(tick / 200 + (i / wave.period));
 	}
 };
-var wave2 = {
+let wave2 = {
 	fillStyle: "rgba(0, 0, 200, 0.5)",
 	size: 5,
 	spacing: 10,
@@ -140,7 +119,7 @@ var wave2 = {
 		return Math.cos(tick / 50);
 	}
 };
-var wave3 = {
+let wave3 = {
 	distortWidth: function (wave_val) {
 		return wave3.size / (1 + Math.abs(wave_val));
 	},
@@ -148,7 +127,7 @@ var wave3 = {
 		return wave3.size * (1 + Math.abs(wave_val));
 	},
 	fillStyle: function (wave_val) {
-		return "rgba(" + scale_int(wave_val, -1, 1, 0, 255) + ", 0, " + scale_int(wave_val, -1, 1, 255, 0) + ", 0.2)";
+		return "rgba(" + scaleInt(wave_val, -1, 1, 0, 255) + ", 0, " + scaleInt(wave_val, -1, 1, 255, 0) + ", 0.2)";
 	},
 	margin: canvas_height / 2,
 	size: 57,
@@ -157,7 +136,7 @@ var wave3 = {
 	}
 };
 
-var shapes = [
+let shapes = [
 	[
 		'**',
 		' **'
@@ -183,102 +162,114 @@ var shapes = [
 	]
 ];
 
-// mousing
-canvas.addEventListener("mousemove", function (e) {
-	if (intersects({
-		x: e.clientX,
-		y: e.clientY
-	}, box)) {
-		canvas.style.cursor = 'pointer';
-	} else {
-		canvas.style.cursor = '';
-	}
-});
+function setup(ctx, width, height) {
+	canvasCtx = ctx;
+	canvas_width = width;
+	canvas_height = height;
 
-// touching
-mc.on('panstart', function (e) {
-	if (intersects({
-		x: e.center.x,
-		y: e.center.y
-	}, box)) {
-		box.accel = MAX_ACCEL;
-		box.grabbed = true;
-		box.grab_offset_x = box.x - e.center.x;
-		box.grab_offset_y = box.y - e.center.y;
-	}
-});
-mc.on('panmove', function (e) {
-	if (box.grabbed) {
-		box.accel = MAX_ACCEL;
-		box.x = e.center.x + box.grab_offset_x;
-		box.y = e.center.y + box.grab_offset_y;
-	}
-});
-mc.on('panend', function () {
-	box.grabbed = false;
-});
+	// mousing
+	ctx.canvas.addEventListener("mousemove", function (e) {
+		if (intersects({
+			x: e.clientX,
+			y: e.clientY
+		}, box)) {
+			ctx.canvas.style.cursor = 'pointer';
+		} else {
+			ctx.canvas.style.cursor = '';
+		}
+	});
 
-// keying
-for (let key of Object.keys(keys)) {
-	Mousetrap.bind(key, function () {
-		keys[key] = true;
-	}, 'keydown');
-	Mousetrap.bind(key, function () {
-		keys[key] = false;
-	}, 'keyup');
+	// touching
+	let mc = new Hammer(ctx.canvas, {
+		recognizers: [[Hammer.Pan, { direction: Hammer.DIRECTION_ALL }]],
+		threshold: 0
+	});
+	mc.on('panstart', function (e) {
+		if (intersects({
+			x: e.center.x,
+			y: e.center.y
+		}, box)) {
+			box.accel = MAX_ACCEL;
+			box.grabbed = true;
+			box.grab_offset_x = box.x - e.center.x;
+			box.grab_offset_y = box.y - e.center.y;
+		}
+	});
+	mc.on('panmove', function (e) {
+		if (box.grabbed) {
+			box.accel = MAX_ACCEL;
+			box.x = e.center.x + box.grab_offset_x;
+			box.y = e.center.y + box.grab_offset_y;
+		}
+	});
+	mc.on('panend', function () {
+		box.grabbed = false;
+	});
+
+	// keying
+	for (let key of Object.keys(keys)) {
+		Mousetrap.bind(key, function () {
+			keys[key] = true;
+		}, 'keydown');
+		Mousetrap.bind(key, function () {
+			keys[key] = false;
+		}, 'keyup');
+	}
+	Mousetrap.bind('r', function () {
+		draw();
+	});
+	Mousetrap.bind('space', function () {
+		pause = !pause;
+	});
+
+	// FPS counter
+	stats.domElement.style.position = 'absolute';
+	stats.domElement.style.right = '0px';
+	stats.domElement.style.top = '0px';
+	document.body.appendChild(stats.domElement);
+
+	resize_and_recenter_box();
+	window.addEventListener("resize", resize_and_recenter_box);
 }
-Mousetrap.bind('r', clearDisplay);
-Mousetrap.bind('space', function () {
-	pause = !pause;
-	if (!pause) {
-		requestAnimationFrame(gameloop);
-	}
-});
 
-// FPS counter
-stats.domElement.style.position = 'absolute';
-stats.domElement.style.right = '0px';
-stats.domElement.style.top = '0px';
-document.body.appendChild(stats.domElement);
-
-function draw_wave(wave) {
-	var fill_style_func = false,
+function drawWave(wave) {
+	let fill_style_func = false,
 		margin = wave.margin || 0,
 		spacing = wave.spacing || 0;
 
 	if (Object.prototype.toString.call(wave.fillStyle) === "[object String]") {
-		ctx.fillStyle = wave.fillStyle;
+		canvasCtx.fillStyle = wave.fillStyle;
 	} else if (typeof wave.fillStyle == 'function') {
 		fill_style_func = true;
 	}
 
-	for (var i = 0; i < (canvas_width / (wave.size + spacing)); i++) {
-		var wave_val = wave.waveFunc(i);
+	for (let i = 0; i < (canvas_width / (wave.size + spacing)); i++) {
+		let wave_val = wave.waveFunc(i);
 
 		if (fill_style_func) {
-			ctx.fillStyle = wave.fillStyle(wave_val, i);
+			canvasCtx.fillStyle = wave.fillStyle(wave_val, i);
 		}
 
-		ctx.fillRect(
+		canvasCtx.fillRect(
 			spacing + i * (wave.size + spacing), // x
-			scale_int(wave_val, -1, 1, margin, canvas_height - wave.size - margin), // y
+			scaleInt(wave_val, -1, 1, margin, canvas_height - wave.size - margin), // y
 			(wave.distortWidth ? wave.distortWidth(wave_val, i) : wave.size), // width
 			(wave.distortHeight ? wave.distortHeight(wave_val, i) : wave.size)  // height
 		);
 	}
 }
 
-function draw_shape(shape, shape_num) {
-	var size = canvas_height / 4 / shapes.length,
+function drawShape(shape, shape_num) {
+	let size = canvas_height / 4 / shapes.length,
 		shapes_width = size * 4,
 		shapes_height = shapes.length * size * 3;
 
-	ctx.fillStyle = "rgb(255, 255, 255)";
+	canvasCtx.fillStyle = "rgb(255, 255, 255)";
 
 	shape.forEach(function (row, i) {
 		row.split('').forEach(function (item, j) {
 			if (item == '*') {
-				ctx.fillRect(
+				canvasCtx.fillRect(
 					((canvas_width - shapes_width) / 2) + (j * size),
 					((canvas_height - shapes_height) / 2) + ((i + (shape.length == 1 ? 1 : 0)) * size) + (shape_num * size * 3),
 					size,
@@ -290,25 +281,28 @@ function draw_shape(shape, shape_num) {
 }
 
 function draw() {
-	clearDisplay();
-
-	draw_wave(wave3);
-	draw_wave(wave2);
+	drawWave(wave3);
+	drawWave(wave2);
 
 	// the box
-	ctx.fillStyle = "rgb(" + Math.floor(200 / MAX_ACCEL * box.accel) + ", 0, 0)";
-	ctx.fillRect(box.x, box.y, box.width, box.height);
+	canvasCtx.fillStyle = "rgb(" + Math.floor(200 / MAX_ACCEL * box.accel) + ", 0, 0)";
+	canvasCtx.fillRect(box.x, box.y, box.width, box.height);
 
 	if (tick % 20 === 0) {
 		shapes = shuffle(shapes);
 	}
-	shapes.forEach(draw_shape);
+	shapes.forEach(drawShape);
 
-	draw_wave(wave);
+	drawWave(wave);
 }
 
-function gameloop() {
+function update(ctx, width, height/*, time*/) {
+	canvasCtx = ctx;
+	canvas_width = width;
+	canvas_height = height;
+
 	if (pause) {
+		tick++;
 		return;
 	}
 
@@ -319,7 +313,7 @@ function gameloop() {
 			return;
 		}
 
-		if (movement_keys.indexOf(key) != -1) {
+		if (movementKeys.indexOf(key) != -1) {
 			accelerate();
 		}
 
@@ -344,18 +338,18 @@ function gameloop() {
 		}
 	});
 
-	if (!movement_keys.some(function (key) {
+	if (!movementKeys.some(function (key) {
 		return keys[key];
 	})) {
 		deccelerate();
 	}
+
+	clearDisplay();
 
 	draw();
 
 	// bookkeeping
 	tick++;
 
-	requestAnimationFrame(gameloop);
 	stats.end();
 }
-requestAnimationFrame(gameloop);
