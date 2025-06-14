@@ -260,7 +260,7 @@ function drawWave(wave) {
 }
 
 function drawShape(shape, shape_num) {
-	let size = canvas_height / 4 / shapes.length,
+	let size = parseInt(canvas_height / 4 / shapes.length, 10),
 		shapes_width = size * 4,
 		shapes_height = shapes.length * size * 3;
 
@@ -268,14 +268,12 @@ function drawShape(shape, shape_num) {
 
 	shape.forEach(function (row, i) {
 		row.split('').forEach(function (item, j) {
-			if (item == '*') {
-				canvasCtx.fillRect(
-					((canvas_width - shapes_width) / 2) + (j * size),
-					((canvas_height - shapes_height) / 2) + ((i + (shape.length == 1 ? 1 : 0)) * size) + (shape_num * size * 3),
-					size,
-					size
-				);
+			if (item != '*') {
+				return;
 			}
+			let x = parseInt((((canvas_width - shapes_width) / 2) + (j * size)), 10);
+			let y = parseInt((((canvas_height - shapes_height) / 2) + ((i + (shape.length == 1 ? 1 : 0)) * size) + (shape_num * size * 3)), 10);
+			canvasCtx.fillRect(x, y, size, size);
 		});
 	});
 }
