@@ -1,4 +1,4 @@
-/*global Hammer, Mousetrap, Stats */
+/* globals Hammer:true, Mousetrap:true, Stats:true */
 
 var MAX_ACCEL = 20,
 	pause = false,
@@ -20,11 +20,6 @@ var MAX_ACCEL = 20,
 	canvas_width,
 	canvas_height,
 	ctx = canvas.getContext('2d'),
-
-	requestAnimationFrame = window.requestAnimationFrame ||
-		window.mozRequestAnimationFrame ||
-		window.webkitRequestAnimationFrame ||
-		window.msRequestAnimationFrame,
 
 	mc = new Hammer(canvas, {
 		recognizers: [[Hammer.Pan, { direction: Hammer.DIRECTION_ALL }]],

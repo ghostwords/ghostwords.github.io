@@ -1,8 +1,8 @@
 {
-	"name": "001",
+	"name": "ghostwords.github.io",
 	"version": "0.0.1",
 	"private": true,
 	"dependencies": {
-		"jshint": "2.3.0"
+		"eslint": "7.32.0"
 	}
 }
