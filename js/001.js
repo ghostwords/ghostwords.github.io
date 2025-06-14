@@ -1,4 +1,4 @@
-/*global Hammer, Mousetrap, Stats, _ */
+/*global Hammer, Mousetrap, Stats */
 
 var MAX_ACCEL = 20,
 	pause = false,
@@ -16,7 +16,7 @@ var MAX_ACCEL = 20,
 	},
 	movement_keys = ['up', 'down', 'left', 'right'],
 
-	canvas = $('#canvas')[0],
+	canvas = document.getElementsByTagName("canvas")[0],
 	canvas_width,
 	canvas_height,
 	ctx = canvas.getContext('2d'),
@@ -34,8 +34,8 @@ var MAX_ACCEL = 20,
 	stats = new Stats();
 
 function resize_canvas() {
-	canvas_width = canvas.width = $(window).width();
-	canvas_height = canvas.height = $(window).height();
+	canvas_width = canvas.width = document.documentElement.clientWidth;
+	canvas_height = canvas.height = document.documentElement.clientHeight;
 }
 
 function scale_int(num, old_min, old_max, new_min, new_max) {
@@ -94,7 +94,7 @@ function shuffle(array) {
 
 // canvas setup
 resize_canvas();
-$(window).resize(function () {
+window.addEventListener("resize", function () {
 	resize_canvas();
 	draw();
 });
@@ -121,7 +121,7 @@ function resize_and_recenter_box() {
 	box.y = (canvas_height - box.height) / 2;
 }
 resize_and_recenter_box();
-$(window).resize(resize_and_recenter_box);
+window.addEventListener("resize", resize_and_recenter_box);
 
 var wave = {
 	distortHeight: function (wave_val) {
@@ -189,14 +189,14 @@ var shapes = [
 ];
 
 // mousing
-$(canvas).mousemove(function (e) {
+canvas.addEventListener("mousemove", function (e) {
 	if (intersects({
 		x: e.clientX,
 		y: e.clientY
 	}, box)) {
-		$(canvas).css('cursor', 'pointer');
+		canvas.style.cursor = 'pointer';
 	} else {
-		$(canvas).css('cursor', '');
+		canvas.style.cursor = '';
 	}
 });
 
@@ -224,14 +224,14 @@ mc.on('panend', function () {
 });
 
 // keying
-_.each(_.keys(keys), function (key) {
+for (let key of Object.keys(keys)) {
 	Mousetrap.bind(key, function () {
 		keys[key] = true;
 	}, 'keydown');
 	Mousetrap.bind(key, function () {
 		keys[key] = false;
 	}, 'keyup');
-});
+}
 Mousetrap.bind('r', clearDisplay);
 Mousetrap.bind('space', function () {
 	pause = !pause;
@@ -251,9 +251,9 @@ function draw_wave(wave) {
 		margin = wave.margin || 0,
 		spacing = wave.spacing || 0;
 
-	if (_.isString(wave.fillStyle)) {
+	if (Object.prototype.toString.call(wave.fillStyle) === "[object String]") {
 		ctx.fillStyle = wave.fillStyle;
-	} else if (_.isFunction(wave.fillStyle)) {
+	} else if (typeof wave.fillStyle == 'function') {
 		fill_style_func = true;
 	}
 
@@ -281,7 +281,7 @@ function draw_shape(shape, shape_num) {
 	ctx.fillStyle = "rgb(255, 255, 255)";
 
 	shape.forEach(function (row, i) {
-		_.each(row, function (item, j) {
+		row.split('').forEach(function (item, j) {
 			if (item == '*') {
 				ctx.fillRect(
 					((canvas_width - shapes_width) / 2) + (j * size),
@@ -319,8 +319,8 @@ function gameloop() {
 
 	stats.begin();
 
-	_.each(keys, function (active, key) {
-		if (!active) {
+	Object.keys(keys).forEach(function (key) {
+		if (!keys[key]) { // active?
 			return;
 		}
 
@@ -349,7 +349,7 @@ function gameloop() {
 		}
 	});
 
-	if (!_.any(movement_keys, function (key) {
+	if (!movement_keys.some(function (key) {
 		return keys[key];
 	})) {
 		deccelerate();
